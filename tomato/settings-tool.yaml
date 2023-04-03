@@ -1,0 +1,9 @@
+data:
+  path: 'results'
+
+modules:
+  model_initializer: 'wrapper'
+  data_preprocessor: 'wrapper'
+  model_trainer: 'wrapper'
+  model_tester: 'wrapper'
+  model_evaluator: 'wrapper'
