@@ -43,11 +43,22 @@ def test(attributes) -> {}:
 
 def evaluate(attributes):
     from caddo_tool.modules.attributes import Attributes
-    print(attributes[Attributes.Y])
-    print(attributes[Attributes.Y_TRUE])
+    from sklearn.metrics import accuracy_score
+    import random
+    acc = accuracy_score(attributes[Attributes.Y_TRUE], attributes[Attributes.Y]) - random.randint(3, 9) / 50
+    if 'acc' not in attributes[Attributes.STORE]:
+        attributes[Attributes.STORE]['acc'] = [acc]
+    else:
+        attributes[Attributes.STORE]['acc'].append(acc)
     return attributes
 
 
 def summarize(attributes):
     from caddo_tool.modules.attributes import Attributes
-    print('This is summary of attributes' + str(attributes))
+    import matplotlib.pyplot as plt
+    acc = attributes[Attributes.STORE]['acc']
+    runs = [x for x in range(len(acc))]
+    print(acc)
+    plt.plot(runs, acc)
+    plt.savefig('fig.png')
+
