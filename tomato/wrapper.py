@@ -5,7 +5,6 @@ def preprocess(attributes) -> {}:
     :param data: data read in previous step
     :return: data in same shape but after preprocessing operations
     """
-    keywords = ['"', "sql", "statement", "select", "insert", "delete", "update", "drop", "execute"]
     attributes[Attributes.X] = attributes[Attributes.X_RAW].apply(lambda x: [1 for _ in x])
     attributes[Attributes.Y] = attributes[Attributes.Y_RAW]
     return attributes
@@ -37,6 +36,7 @@ def test(attributes) -> {}:
     :param network: network trained previously
     :return: predictions that will be processed in next step
     """
+    attributes[Attributes.STORE]['funny1'] = 0
     attributes[Attributes.Y] = attributes[Attributes.MODEL].predict(attributes[Attributes.X])
     return attributes
 
@@ -45,3 +45,9 @@ def evaluate(attributes):
     from caddo_tool.modules.attributes import Attributes
     print(attributes[Attributes.Y])
     print(attributes[Attributes.Y_TRUE])
+    return attributes
+
+
+def summarize(attributes):
+    from caddo_tool.modules.attributes import Attributes
+    print('This is summary of attributes' + str(attributes))
