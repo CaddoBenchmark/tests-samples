@@ -7,3 +7,4 @@ modules:
   model_trainer: 'wrapper'
   model_tester: 'wrapper'
   model_evaluator: 'wrapper'
+  summarizer: 'wrapper'

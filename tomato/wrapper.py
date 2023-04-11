@@ -5,7 +5,6 @@ def preprocess(attributes) -> {}:
     :param data: data read in previous step
     :return: data in same shape but after preprocessing operations
     """
-    keywords = ['"', "sql", "statement", "select", "insert", "delete", "update", "drop", "execute"]
     attributes[Attributes.X] = attributes[Attributes.X_RAW].apply(lambda x: [1 for _ in x])
     attributes[Attributes.Y] = attributes[Attributes.Y_RAW]
     return attributes
@@ -37,11 +36,29 @@ def test(attributes) -> {}:
     :param network: network trained previously
     :return: predictions that will be processed in next step
     """
+    attributes[Attributes.STORE]['funny1'] = 0
     attributes[Attributes.Y] = attributes[Attributes.MODEL].predict(attributes[Attributes.X])
     return attributes
 
 
 def evaluate(attributes):
     from caddo_tool.modules.attributes import Attributes
-    print(attributes[Attributes.Y])
-    print(attributes[Attributes.Y_TRUE])
+    from sklearn.metrics import accuracy_score
+    import random
+    acc = accuracy_score(attributes[Attributes.Y_TRUE], attributes[Attributes.Y]) - random.randint(3, 9) / 50
+    if 'acc' not in attributes[Attributes.STORE]:
+        attributes[Attributes.STORE]['acc'] = [acc]
+    else:
+        attributes[Attributes.STORE]['acc'].append(acc)
+    return attributes
+
+
+def summarize(attributes):
+    from caddo_tool.modules.attributes import Attributes
+    import matplotlib.pyplot as plt
+    acc = attributes[Attributes.STORE]['acc']
+    runs = [x for x in range(len(acc))]
+    print(acc)
+    plt.plot(runs, acc)
+    plt.savefig('fig.png')
+
