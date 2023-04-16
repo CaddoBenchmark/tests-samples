@@ -1,0 +1,21 @@
+data:
+  settings_file:
+    path: ./settings.yaml
+  input:
+    path: ./dataset.csv
+    separator: '$'
+  extraction:
+    function:
+      path: extraction
+  output:
+    file:
+      name: results
+      separator: ','
+  splitting:
+    runs: 3
+    folding:
+      method: KFOLD
+      number: 2
+      seeds:
+        from_list:
+        from_file: ./seeds.yaml
